@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <cmath>
+#include <limits>
 
 template<std::size_t N, typename T>
 class Vector {
@@ -17,6 +19,12 @@ public:
 	explicit Vector(const T& val) {
 		for (std::size_t i = 0; i != N; ++i)data[i] = val;
 	}
+
+	/*
+	* return the memory address of the vector
+	* useful to access the data[N]
+	*/
+	T* Getdata() { return data; }
 
 	std::size_t size() const{
 		return N;
@@ -50,6 +58,24 @@ public:
 	T length() const {
 		return sqrt(length_2());
 	}
+
+	// return the squared distance of another vector
+	typedef Vector<N, T> ThisVector;
+	T distance_2(const ThisVector& other) {
+		T result = T{};
+		for (std::size_t i = 0; i != N; ++i) {
+			T val = other.data[i] - data[i]; // access the private members inside the class
+			result += val * val;
+		}
+		return result;
+	}
+
+	// return the distance of another vector 
+	T distance(const ThisVector& other) {
+		return sqrt(distance_2(other));
+	}
+
+	// normalize the vector
 
 
 	// print itself
