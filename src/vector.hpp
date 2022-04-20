@@ -9,7 +9,7 @@ public:
 
 	// constructors ------------------------------------------------------
 	Vector() {
-		for (std::size_t i = 0; i != N; ++i)data[i] = T(0);
+		for (std::size_t i = 0; i != N; ++i)data[i] = T{}; // zero - initialization, same as T(0)
 	}
 
 	// explicit specifier -- avoid implicit conversions
@@ -39,7 +39,7 @@ public:
 
 	// return the squared length of the vector
 	T length_2() const {
-		T res = T(0);
+		T res = T{}; // zero - initialization, same as T(0)
 		for (std::size_t i = 0; i != N; ++i) {
 			result += data[i] * data[i];
 		}
@@ -52,6 +52,12 @@ public:
 	}
 
 
-
+	// print itself
+	void print() {
+		for (std::size_t i = 0; i != N; ++i) {
+			std::cout << data[i] << " ";
+		}
+		std::cout << '\n';
+	}
 
 };
