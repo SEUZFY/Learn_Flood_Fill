@@ -75,9 +75,6 @@ public:
 		return sqrt(distance_2(other));
 	}
 
-	// normalize the vector
-
-
 	// print itself
 	void print() {
 		for (std::size_t i = 0; i != N; ++i) {
