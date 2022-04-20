@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cmath>
 #include <limits>
+#include <cassert>
 
 template<std::size_t N, typename T>
 class Vector {
@@ -9,7 +10,7 @@ private:
 	T data[N];
 public:
 
-	// constructors ------------------------------------------------------
+	// constructors ------------------------------------------------------------------
 	Vector() {
 		for (std::size_t i = 0; i != N; ++i)data[i] = T{}; // zero - initialization, same as T(0)
 	}
@@ -19,6 +20,8 @@ public:
 	explicit Vector(const T& val) {
 		for (std::size_t i = 0; i != N; ++i)data[i] = val;
 	}
+	// constructors ------------------------------------------------------------------
+
 
 	/*
 	* return the memory address of the vector
@@ -74,6 +77,64 @@ public:
 	T distance(const ThisVector& other) {
 		return sqrt(distance_2(other));
 	}
+
+
+	// Basic operations [+-*/] ------------------------------------------------------------------
+
+	/*
+	* function: sum two vectors
+	* @return: sum vector
+	* It will copy the current vector and then perform the sum operation
+	* in such manner the original vector can be preserved
+	* e.g.
+	* \code
+	* 
+	* Vector<2, float> vec_a;
+    * Vector<2, float> vec_b;
+	* ... // assign different values to vec_a and vec_b
+	* auto sum_vec = vec_a + vec_b;
+	* sum_vec.print();
+    * vec_a.print(); // keep the original value
+	* 
+	* \endcode
+	*/
+	ThisVector operator+ (const ThisVector& vec) const{
+		ThisVector result(*this); // result is a copy of current vector: *this
+		for (std::size_t i = 0; i != N; ++i) {
+			result.data[i] += vec.data[i];
+		}
+		return result;
+	}
+
+	// operator-
+	ThisVector operator- (const ThisVector& vec) const{
+		ThisVector result(*this); // result is a copy of current vector: *this
+		for (std::size_t i = 0; i != N; ++i) {
+			result.data[i] -= vec.data[i];
+		}
+		return result;
+	}
+
+	// operator*, the type need to be the same to avoid the implicit conversion
+	ThisVector operator* (T val) const {
+		ThisVector result(*this); // result is a copy of current vector: *this
+		for (std::size_t i = 0; i != N; ++i) {
+			result.data[i] *= val;
+		}
+		return result;
+	}
+
+	// operator/, the type need to be the same to avoid the implicit conversion
+	ThisVector operator/ (T val) const {
+		assert(val != T{});
+		ThisVector result(*this); // result is a copy of current vector: *this
+		for (std::size_t i = 0; i != N; ++i) {
+			result.data[i] /= val;
+		}
+		return result;
+	}
+	// Basic operations [+-*/] ------------------------------------------------------------------
+
 
 	// print itself
 	void print() {
